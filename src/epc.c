@@ -1,0 +1,307 @@
+/*************************************************************************** 
+
+    Copyright (C) 2019 NextEPC Inc. All rights reserved.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+***************************************************************************/
+
+
+#define TRACE_MODULE _epc_main
+
+#include "core_general.h"
+#include "core_debug.h"
+#include "core_semaphore.h"
+
+#include "common/context.h"
+#include "common/application.h"
+
+#include "app_init.h"
+
+static semaphore_id pcrf_sem1 = 0;
+static semaphore_id pcrf_sem2 = 0;
+
+static semaphore_id pgw_sem1 = 0;
+static semaphore_id pgw_sem2 = 0;
+
+static semaphore_id sgw_sem1 = 0;
+static semaphore_id sgw_sem2 = 0;
+
+static semaphore_id hss_sem1 = 0;
+static semaphore_id hss_sem2 = 0;
+
+status_t app_initialize(
+        const char *config_path, const char *log_path, const char *pid_path)
+{
+    pid_t pid;
+    status_t rv;
+    int app = 0;
+
+    rv = app_log_pid(pid_path, "epc");
+    if (rv != CORE_OK) return rv;
+
+    rv = app_will_initialize(config_path, log_path);
+    if (rv != CORE_OK) return rv;
+
+    app = context_self()->logger.trace.app;
+    if (app)
+    {
+        d_trace_level(&_epc_main, app);
+    }
+
+
+    /************************* PCRF Process **********************/
+    semaphore_create(&pcrf_sem1, 0); /* copied to PCRF/PGW/SGW/HSS process */
+    semaphore_create(&pcrf_sem2, 0); /* copied to PCRF/PGW/SGW/HSS process */
+
+    if (context_self()->parameter.no_pcrf == 0)
+    {
+        pid = fork();
+        d_assert(pid >= 0, _exit(EXIT_FAILURE), "fork() failed");
+
+        if (pid == 0)
+        {
+            d_trace(1, "PCRF try to initialize\n");
+            rv = pcrf_initialize();
+            d_assert(rv == CORE_OK,, "Failed to intialize PCRF");
+            d_trace(1, "PCRF initialize...done\n");
+
+            if (pcrf_sem1) semaphore_post(pcrf_sem1);
+            if (pcrf_sem2) semaphore_wait(pcrf_sem2);
+
+            if (rv == CORE_OK)
+            {
+                d_trace(1, "PCRF try to terminate\n");
+                pcrf_terminate();
+                d_trace(1, "PCRF terminate...done\n");
+            }
+
+            if (pcrf_sem1) semaphore_post(pcrf_sem1);
+
+            /* allocated from parent process */
+            if (pcrf_sem1) semaphore_delete(pcrf_sem1);
+            if (pcrf_sem2) semaphore_delete(pcrf_sem2);
+
+            app_did_terminate();
+
+            core_terminate();
+
+            _exit(EXIT_SUCCESS);
+        }
+
+        if (pcrf_sem1) semaphore_wait(pcrf_sem1);
+    }
+
+
+    /************************* PGW Process **********************/
+
+    semaphore_create(&pgw_sem1, 0); /* copied to PGW/SGW/HSS process */
+    semaphore_create(&pgw_sem2, 0); /* copied to PGW/SGW/HSS process */
+
+    if (context_self()->parameter.no_pgw == 0)
+    {
+        pid = fork();
+        d_assert(pid >= 0, _exit(EXIT_FAILURE), "fork() failed");
+
+        if (pid == 0)
+        {
+            /* allocated from parent process */
+            if (pcrf_sem1) semaphore_delete(pcrf_sem1);
+            if (pcrf_sem2) semaphore_delete(pcrf_sem2);
+
+            d_trace(1, "PGW try to initialize\n");
+            rv = pgw_initialize();
+            d_assert(rv == CORE_OK,, "Failed to intialize PGW");
+            d_trace(1, "PGW initialize...done\n");
+
+            if (pgw_sem1) semaphore_post(pgw_sem1);
+            if (pgw_sem2) semaphore_wait(pgw_sem2);
+
+            if (rv == CORE_OK)
+            {
+                d_trace(1, "PGW try to terminate\n");
+                pgw_terminate();
+                d_trace(1, "PGW terminate...done\n");
+            }
+
+            if (pgw_sem1) semaphore_post(pgw_sem1);
+
+            /* allocated from parent process */
+            if (pgw_sem1) semaphore_delete(pgw_sem1);
+            if (pgw_sem2) semaphore_delete(pgw_sem2);
+
+            app_did_terminate();
+
+            core_terminate();
+
+            _exit(EXIT_SUCCESS);
+        }
+
+        if (pgw_sem1) semaphore_wait(pgw_sem1);
+    }
+
+
+    /************************* SGW Process **********************/
+
+    semaphore_create(&sgw_sem1, 0); /* copied to SGW/HSS process */
+    semaphore_create(&sgw_sem2, 0); /* copied to SGW/HSS process */
+
+    if (context_self()->parameter.no_sgw == 0)
+    {
+        pid = fork();
+        d_assert(pid >= 0, _exit(EXIT_FAILURE), "fork() failed");
+
+        if (pid == 0)
+        {
+            /* allocated from parent process */
+            if (pcrf_sem1) semaphore_delete(pcrf_sem1);
+            if (pcrf_sem2) semaphore_delete(pcrf_sem2);
+            if (pgw_sem1) semaphore_delete(pgw_sem1);
+            if (pgw_sem2) semaphore_delete(pgw_sem2);
+
+            d_trace(1, "SGW try to initialize\n");
+            rv = sgw_initialize();
+            d_assert(rv == CORE_OK,, "Failed to intialize SGW");
+            d_trace(1, "SGW initialize...done\n");
+
+            if (sgw_sem1) semaphore_post(sgw_sem1);
+            if (sgw_sem2) semaphore_wait(sgw_sem2);
+
+            if (rv == CORE_OK)
+            {
+                d_trace(1, "SGW try to terminate\n");
+                sgw_terminate();
+                d_trace(1, "SGW terminate...done\n");
+            }
+
+            if (sgw_sem1) semaphore_post(sgw_sem1);
+
+            /* allocated from parent process */
+            if (sgw_sem1) semaphore_delete(sgw_sem1);
+            if (sgw_sem2) semaphore_delete(sgw_sem2);
+
+            app_did_terminate();
+
+            core_terminate();
+
+            _exit(EXIT_SUCCESS);
+        }
+
+        if (sgw_sem1) semaphore_wait(sgw_sem1);
+    }
+
+
+    /************************* HSS Process **********************/
+
+    semaphore_create(&hss_sem1, 0); /* copied to HSS process */
+    semaphore_create(&hss_sem2, 0); /* copied to HSS process */
+
+    if (context_self()->parameter.no_hss == 0)
+    {
+        pid = fork();
+        d_assert(pid >= 0, _exit(EXIT_FAILURE), "fork() failed");
+
+        if (pid == 0)
+        {
+            /* allocated from parent process */
+            if (pcrf_sem1) semaphore_delete(pcrf_sem1);
+            if (pcrf_sem2) semaphore_delete(pcrf_sem2);
+            if (pgw_sem1) semaphore_delete(pgw_sem1);
+            if (pgw_sem2) semaphore_delete(pgw_sem2);
+            if (sgw_sem1) semaphore_delete(sgw_sem1);
+            if (sgw_sem2) semaphore_delete(sgw_sem2);
+
+            d_trace(1, "HSS try to initialize\n");
+            rv = hss_initialize();
+            d_assert(rv == CORE_OK,, "Failed to intialize HSS");
+            d_trace(1, "HSS initialize...done\n");
+
+            if (hss_sem1) semaphore_post(hss_sem1);
+            if (hss_sem2) semaphore_wait(hss_sem2);
+
+            if (rv == CORE_OK)
+            {
+                d_trace(1, "HSS try to terminate\n");
+                hss_terminate();
+                d_trace(1, "HSS terminate...done\n");
+            }
+
+            if (hss_sem1) semaphore_post(hss_sem1);
+
+            if (hss_sem1) semaphore_delete(hss_sem1);
+            if (hss_sem2) semaphore_delete(hss_sem2);
+
+            app_did_terminate();
+
+            core_terminate();
+
+            _exit(EXIT_SUCCESS);
+        }
+
+        if (hss_sem1) semaphore_wait(hss_sem1);
+    }
+
+    rv = app_did_initialize();
+    if (rv != CORE_OK) return rv;
+
+    d_trace(1, "MME try to initialize\n");
+    rv = mme_initialize();
+    d_assert(rv == CORE_OK, return rv, "Failed to intialize MME");
+    d_trace(1, "MME initialize...done\n");
+
+    return CORE_OK;;
+}
+
+void app_terminate(void)
+{
+    app_will_terminate();
+
+    d_trace(1, "MME try to terminate\n");
+    mme_terminate();
+    d_trace(1, "MME terminate...done\n");
+
+    if (context_self()->parameter.no_hss == 0)
+    {
+        if (hss_sem2) semaphore_post(hss_sem2);
+        if (hss_sem1) semaphore_wait(hss_sem1);
+    }
+    if (hss_sem1) semaphore_delete(hss_sem1);
+    if (hss_sem2) semaphore_delete(hss_sem2);
+
+    if (context_self()->parameter.no_sgw == 0)
+    {
+        if (sgw_sem2) semaphore_post(sgw_sem2);
+        if (sgw_sem1) semaphore_wait(sgw_sem1);
+    }
+    if (sgw_sem1) semaphore_delete(sgw_sem1);
+    if (sgw_sem2) semaphore_delete(sgw_sem2);
+
+    if (context_self()->parameter.no_pgw == 0)
+    {
+        if (pgw_sem2) semaphore_post(pgw_sem2);
+        if (pgw_sem1) semaphore_wait(pgw_sem1);
+    }
+    if (pgw_sem1) semaphore_delete(pgw_sem1);
+    if (pgw_sem2) semaphore_delete(pgw_sem2);
+
+    if (context_self()->parameter.no_pcrf == 0)
+    {
+        if (pcrf_sem2) semaphore_post(pcrf_sem2);
+        if (pcrf_sem1) semaphore_wait(pcrf_sem1);
+    }
+    if (pcrf_sem1) semaphore_delete(pcrf_sem1);
+    if (pcrf_sem2) semaphore_delete(pcrf_sem2);
+
+    app_did_terminate();
+}

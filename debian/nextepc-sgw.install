@@ -1,0 +1,3 @@
+usr/bin/nextepc-sgwd
+etc/nextepc/sgw.conf
+support/systemd/nextepc-sgwd.service lib/systemd/system

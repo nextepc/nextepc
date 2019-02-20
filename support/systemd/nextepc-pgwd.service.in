@@ -1,0 +1,20 @@
+[Unit]
+Description=NextEPC P-GW Daemon
+After=networking.service
+
+[Service]
+Type=simple
+
+User=nextepc
+Group=nextepc
+
+RuntimeDirectory=nextepc-pgwd
+PIDFile=@LIB_DIR@/run/nextepc-pgwd/pid
+
+Restart=always
+ExecStart=@BIN_DIR@/nextepc-pgwd -f @SYSCONF_DIR@/nextepc/pgw.conf
+RestartSec=2
+RestartPreventExitStatus=1
+
+[Install]
+WantedBy=multi-user.target
