@@ -1,5 +1,5 @@
 Source: nextepc
-Maintainer: Harald Welte <laforge@gnumonks.org>
+Maintainer: NextEPC Inc <support@nextepc.com>
 Section: net
 Priority: optional
 Build-Depends: debhelper (>= 9),
@@ -19,8 +19,8 @@ Build-Depends: debhelper (>= 9),
                libbson-dev,
                libyaml-dev
 Standards-Version: 3.9.6
-Vcs-Browser: https://github.com/acetcom/nextepc
-Vcs-Git: git://github.com/acetcom/nextepc
+Vcs-Browser: https://github.com/nextepc/nextepc
+Vcs-Git: git://github.com/nextepc/nextepc
 Homepage: http://nextepc.org/
 
 Package: nextepc-core
