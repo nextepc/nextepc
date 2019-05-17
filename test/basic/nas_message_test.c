@@ -113,7 +113,6 @@ static void nas_message_test2(abts_case *tc, void *data)
 
     attach_accept->presencemask |= 
         NAS_ATTACH_ACCEPT_LOCATION_AREA_IDENTIFICATION_PRESENT;
-    plmn_id_build(
     nas_from_plmn_id(&attach_accept->location_area_identification.plmn_id, plmn_id_build(&plmn_id, 1, 2, 2));
     attach_accept->location_area_identification.lac = 0xfffd;
 

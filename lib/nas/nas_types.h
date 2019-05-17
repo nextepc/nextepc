@@ -42,7 +42,7 @@ ED2(uint8_t mnc2:4;,
 void *nas_from_plmn_id(nas_plmn_id_t *nas_plmn_id, plmn_id_t *plmn_id);
 void *nas_to_plmn_id(plmn_id_t *plmn_id, nas_plmn_id_t *nas_plmn_id);
 
-typdef struct _guti_t {
+typedef struct _guti_t {
     nas_plmn_id_t plmn_id;
     uint16_t mme_gid;
     uint8_t mme_code;
