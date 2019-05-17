@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2017, NextEPC Group
+# Copyright (c) 2019, NextEPC Inc.
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@ def write_file(f, string):
 def output_header_to_file(f):
     now = datetime.datetime.now()
     f.write("""/*
- * Copyright (c) 2017, NextEPC Group
+ * Copyright (c) 2019, NextEPC Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -87,9 +87,9 @@ def output_header_to_file(f):
 
 """)
     f.write("/*******************************************************************************\n")
-    f.write(" * This file had been created by gtpv2c_tlv.py script v%s\n" % (version))
+    f.write(" * This file had been created by nas_message.py script v%s\n" % (version))
     f.write(" * Please do not modify this file but regenerate it via script.\n")
-    f.write(" * Created on: %s by %s\n * from %s\n" % (str(now), getpass.getuser(), filename))
+    f.write(" * Created on: %s from %s\n" % (str(now), filename))
     f.write(" ******************************************************************************/\n\n")
 
 def usage():

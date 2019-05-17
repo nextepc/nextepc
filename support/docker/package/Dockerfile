@@ -3,7 +3,7 @@ FROM ubuntu:${tag}
 
 RUN apt-get update && \
     apt-get -y install software-properties-common && \
-    add-apt-repository ppa:acetcom/nextepc && \
+    add-apt-repository ppa:nextepc/nextepc && \
     apt-get update && \
     apt-get install -y nextepc
 

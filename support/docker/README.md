@@ -41,8 +41,8 @@ For Debian Package Release
   $ docker-compose run dev
 
 * Setup Debian Environment
-export DEBFULLNAME='Sukchan Lee'
-export DEBEMAIL='acetcom@gmail.com'
+export DEBFULLNAME='NextEPC Inc'
+export DEBEMAIL='help@nextepc.com'
 
 * Transfer GPG key
   $ gpg --export-secret-keys --armor --output private.asc
@@ -53,7 +53,7 @@ export DEBEMAIL='acetcom@gmail.com'
 * Upload LaunchPad
   $ dch -i
   $ debuild -S
-  $ dput ppa:acetcom/nextepc *.source.changes
+  $ dput ppa:nextepc/nextepc *.source.changes
 
 * Build pckage
   $ dpkg-buildpackage

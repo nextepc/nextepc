@@ -1,6 +1,6 @@
 FROM node:carbon
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 ARG PACKAGE=nextepc
 ARG VERSION=0.3.3
@@ -8,7 +8,7 @@ ARG VERSION=0.3.3
 RUN set -e; \
     cd /usr/src; \
     rm -rf ./$PACKAGE; \
-    curl -SLO "https://github.com/acetcom/$PACKAGE/archive/v$VERSION.tar.gz"; \
+    curl -SLO "https://github.com/nextepc/$PACKAGE/archive/v$VERSION.tar.gz"; \
     tar -xvf v$VERSION.tar.gz; \
     mv ./$PACKAGE-$VERSION/ ./$PACKAGE;
 

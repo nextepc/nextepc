@@ -110,12 +110,6 @@ typedef struct _e_cgi_t {
     c_uint32_t cell_id; /* 28 bit */
 } __attribute__ ((packed)) e_cgi_t;
 
-typedef struct _guti_t {
-    plmn_id_t plmn_id;
-    c_uint16_t mme_gid;
-    c_uint8_t mme_code;
-    c_uint32_t m_tmsi;
-} __attribute__ ((packed)) guti_t;
 
 /**************************************************
  * Common Structure

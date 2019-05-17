@@ -2,7 +2,7 @@ ARG dist=centos
 ARG tag=latest
 FROM ${dist}:${tag}
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 RUN yum -y install \
         autoconf \

@@ -1,8 +1,8 @@
 /*********************************************************************************************************
  * Software License Agreement (BSD License)                                                               *
- * Author: Sukchan Lee <acetcom@gmail.com>>                                                                *
+ * Author: NextEPC Inc.  <help@nextepc.com>                                                                *
  *                                                                                                        *
- * Copyright (c) 2017, NextEPC Group
+ * Copyright (c) 2019, NextEPC Inc.
  * All rights reserved.                                                                                   *
  *                                                                                                        *
  * Written under contract by nfotex IT GmbH, http://nfotex.com/                                           *

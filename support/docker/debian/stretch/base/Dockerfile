@@ -2,7 +2,7 @@ ARG dist=debian
 ARG tag=stable
 FROM ${dist}:${tag}
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 ARG tag=stable
 RUN apt-get update && \

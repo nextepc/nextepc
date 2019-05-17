@@ -1,14 +1,14 @@
 ARG dist=ubuntu
 ARG tag=latest
-ARG username=acetcom
+ARG username=nextepc
 FROM ${username}/${dist}-${tag}-nextepc-base
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 WORKDIR /root
 COPY setup.sh /root
 
-ARG USER=acetcom
+ARG USER=nextepc
 ARG REPO=nextepc
 ARG BRANCH=master
 RUN	git clone https://github.com/$USER/$REPO

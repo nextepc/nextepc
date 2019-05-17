@@ -27,8 +27,8 @@
 #include "core_debug.h"
 #include "core_pool.h"
 
-#define MAX_NUM_OF_CLBUF 256
-#define MAX_NUM_OF_PKBUF 256
+#define MAX_NUM_OF_CLBUF (1024 + 1024 + 1024 + 1024 + 512 + 512)
+#define MAX_NUM_OF_PKBUF (1024 + 1024 + 1024 + 1024 + 512 + 512)
 
 pool_declare(clbuf_pool, clbuf_t, MAX_NUM_OF_CLBUF);
 pool_declare(pkbuf_pool, pkbuf_t, MAX_NUM_OF_PKBUF);
@@ -43,12 +43,12 @@ pool_declare(pkbuf_pool, pkbuf_t, MAX_NUM_OF_PKBUF);
 #define SIZEOF_CLUSTER_2048     CORE_ALIGN(2048+MAX_SIZEOF_HEADROOM, BOUNDARY)
 #define SIZEOF_CLUSTER_8192     CORE_ALIGN(8192+MAX_SIZEOF_HEADROOM, BOUNDARY)
 
-#define MAX_NUM_OF_CLUSTER_128      256
-#define MAX_NUM_OF_CLUSTER_256      256 
-#define MAX_NUM_OF_CLUSTER_512      256
-#define MAX_NUM_OF_CLUSTER_1024     256
-#define MAX_NUM_OF_CLUSTER_2048     256
-#define MAX_NUM_OF_CLUSTER_8192     256
+#define MAX_NUM_OF_CLUSTER_128      1024
+#define MAX_NUM_OF_CLUSTER_256      1024 
+#define MAX_NUM_OF_CLUSTER_512      1024
+#define MAX_NUM_OF_CLUSTER_1024     1024
+#define MAX_NUM_OF_CLUSTER_2048     512
+#define MAX_NUM_OF_CLUSTER_8192     512
 
 typedef c_uint8_t cluster_128_t[SIZEOF_CLUSTER_128];
 typedef c_uint8_t cluster_256_t[SIZEOF_CLUSTER_256];

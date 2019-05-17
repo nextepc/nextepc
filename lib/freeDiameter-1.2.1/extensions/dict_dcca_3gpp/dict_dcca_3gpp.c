@@ -147,7 +147,7 @@ static int dict_dcca_3gpp_entry(char * conffile)
 	/* Applications section */
 	{
                 /* Create the vendors */
-#if 0 /* modified by acetcom */
+#if 0 /* modified by NextEPC */
                 {
                         struct dict_vendor_data vendor_data = { 10415, "3GPP" };
                         CHECK_FCT(fd_dict_new(fd_g_config->cnf_dict, DICT_VENDOR, &vendor_data, NULL, NULL));
@@ -176,7 +176,7 @@ static int dict_dcca_3gpp_entry(char * conffile)
                         CHECK_FCT(fd_dict_new(fd_g_config->cnf_dict, DICT_APPLICATION, &app_data, vendor, NULL));
                 }
 
-#if 0 /* modified by acetcom */
+#if 0 /* modified by NextEPC */
                 {
                         struct dict_object * vendor;
                         CHECK_FCT(fd_dict_search(fd_g_config->cnf_dict, DICT_VENDOR, VENDOR_BY_NAME, "3GPP", &vendor, ENOENT));
@@ -11400,14 +11400,14 @@ static int dict_dcca_3gpp_entry(char * conffile)
     struct dict_object * cmd;
     struct local_rules_definition rules[] =
     {
-#if 0 /* modified by acetcom */
+#if 0 /* modified by NextEPC */
       {  { .avp_vendor = 10415, .avp_name = "Specific-Action" }, RULE_REQUIRED, -1, 1 },
 #endif
       {  { .avp_vendor = 10415, .avp_name = "Access-Network-Charging-Identifier" }, RULE_OPTIONAL, -1, -1 },
       {  { .avp_vendor = 10415, .avp_name = "Access-Network-Charging-Address" }, RULE_OPTIONAL, -1, 1 },
       {  { .avp_vendor = 10415, .avp_name = "Flows" }, RULE_OPTIONAL, -1, -1 },
       {  {                      .avp_name = "Subscription-Id" }, RULE_OPTIONAL, -1, -1 },
-#if 0 /* modified by acetcom */
+#if 0 /* modified by NextEPC */
       {  { .avp_vendor = 10415, .avp_name = "Abort-Cause" }, RULE_REQUIRED, -1, 1 },
 #endif
       {  { .avp_vendor = 10415, .avp_name = "IP-CAN-Type" }, RULE_OPTIONAL, -1, 1 },

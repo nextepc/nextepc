@@ -351,7 +351,7 @@ void kasumi_f8(u8 *key, u32 count, u32 bearer, u32 dir, u8 *data, int length)
 	
 	/* zero last bits of data in case its length is not byte-aligned 
 	   this is an addition to the C reference code, which did not handle it */
-#if 0 /* modified by acetcom */
+#if 0 /* modified by NextEPC */
 	if (lastbits)
 		*data-- ;
 #else

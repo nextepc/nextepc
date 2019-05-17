@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, NextEPC Group
+ * Copyright (c) 2019, NextEPC Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

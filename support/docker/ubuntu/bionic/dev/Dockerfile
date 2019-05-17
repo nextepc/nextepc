@@ -1,9 +1,9 @@
 ARG dist=ubuntu
 ARG tag=latest
-ARG username=acetcom
+ARG username=nextepc
 FROM ${username}/${dist}-${tag}-nextepc-base
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 RUN apt-get update && \
     apt-get upgrade -y && \
@@ -26,7 +26,7 @@ RUN apt-get update && \
 
 COPY setup.sh /root
 
-ARG username=acetcom
+ARG username=nextepc
 RUN useradd -m --uid=1000 ${username} && \
     echo "${username} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${username} && \
     chmod 0440 /etc/sudoers.d/${username}

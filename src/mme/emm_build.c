@@ -298,13 +298,20 @@ status_t emm_build_security_mode_command(
             sizeof(replayed_ue_security_capabilities->uea) +
             sizeof(replayed_ue_security_capabilities->uia) +
             sizeof(replayed_ue_security_capabilities->gea);
-    d_trace(5, "    SEC[LEN:%d EEA:0x%x EIA:0x%x UEA:0x%x UIA:0x%x GEA:0x%x]\n",
+    d_trace(5, "    CAP[LEN:%d EEA:0x%x EIA:0x%x UEA:0x%x UIA:0x%x GEA:0x%x]\n",
             replayed_ue_security_capabilities->length,
             replayed_ue_security_capabilities->eea,
             replayed_ue_security_capabilities->eia,
             replayed_ue_security_capabilities->uea,
             replayed_ue_security_capabilities->uia,
             replayed_ue_security_capabilities->gea);
+    d_trace(5, "    SEC[INT:0x%x ENC:0x%x]\n",
+            mme_ue->selected_int_algorithm, mme_ue->selected_enc_algorithm);
+    if (mme_ue->selected_int_algorithm == NAS_SECURITY_ALGORITHMS_EIA0)
+    {
+        d_fatal("Null integrity was selected: INT[0x%x]", mme_ue->selected_int_algorithm);
+        return CORE_ERROR;
+    }
 
     mme_kdf_nas(MME_KDF_NAS_INT_ALG, mme_ue->selected_int_algorithm,
             mme_ue->kasme, mme_ue->knas_int);

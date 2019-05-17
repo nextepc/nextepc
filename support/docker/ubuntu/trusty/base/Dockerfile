@@ -2,7 +2,7 @@ ARG dist=ubuntu
 ARG tag=latest
 FROM ${dist}:${tag}
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 RUN	apt-get update && \
     apt-get upgrade -y && \

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, NextEPC Group
+ * Copyright (c) 2019, NextEPC Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -26,7 +26,7 @@
 /*******************************************************************************
  * This file had been created by gtp_tlv.py script v0.1.0
  * Please do not modify this file but regenerate it via script.
- * Created on: 2018-01-23 16:32:53.055846 by acetcom
+ * Created on: 2018-01-23 16:32:53.055846
  * from 29274-d80.docx
  ******************************************************************************/
 

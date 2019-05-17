@@ -30,6 +30,25 @@ extern "C" {
 
 #define NAS_KSI_NO_KEY_IS_AVAILABLE             0x7
 
+typedef struct _nas_plmn_id_t {
+ED2(uint8_t mcc2:4;,
+    uint8_t mcc1:4;)
+ED2(uint8_t mnc3:4;,
+    uint8_t mcc3:4;)
+ED2(uint8_t mnc2:4;,
+    uint8_t mnc1:4;)
+} __attribute__ ((packed)) nas_plmn_id_t;
+
+void *nas_from_plmn_id(nas_plmn_id_t *nas_plmn_id, plmn_id_t *plmn_id);
+void *nas_to_plmn_id(plmn_id_t *plmn_id, nas_plmn_id_t *nas_plmn_id);
+
+typdef struct _guti_t {
+    nas_plmn_id_t plmn_id;
+    uint16_t mme_gid;
+    uint8_t mme_code;
+    uint32_t m_tmsi;
+} __attribute__ ((packed)) guti_t;
+
 /* 9.9.2.0 Additional information
  * O TLV 3-n */
 #define NAX_MAX_ADDITIONAL_INFORMATION_LEN 255
@@ -73,7 +92,7 @@ ED8(c_uint8_t ebi15:1;,
  * See subclause 10.5.1.3 in 3GPP TS 24.008 [13]
  * O TV 6 */
 typedef struct _nas_location_area_identification_t {
-    plmn_id_t plmn_id;
+    nas_plmn_id_t plmn_id;
     c_uint16_t lac;
 } __attribute__ ((packed)) nas_location_area_identification_t;
 
@@ -121,7 +140,7 @@ ED5(c_uint8_t spare:2;,
     c_uint8_t odd_even:1;,
     c_uint8_t type:3;)
     c_uint8_t mbms_servicec_id[3];
-    plmn_id_t plmn_id;
+    nas_plmn_id_t plmn_id;
     c_uint8_t mbms_session_identity;
 } __attribute__ ((packed)) nas_mobile_identity_tmgi_t;
 
@@ -187,7 +206,7 @@ typedef struct _nas_mobile_station_classmark_3_t {
 #define NAS_MAX_PLMN 15
 typedef struct _nas_plmn_list_t {
     c_uint8_t length;
-    plmn_id_t plmn_id[NAS_MAX_PLMN];
+    nas_plmn_id_t plmn_id[NAS_MAX_PLMN];
 } __attribute__ ((packed)) nas_plmn_list_t;
 
 /* 9.9.2.10 Supported codec list
@@ -415,7 +434,7 @@ typedef struct _nas_eps_mobile_identity_guti_t {
 ED3(c_uint8_t spare:4;,
     c_uint8_t odd_even:1;,
     c_uint8_t type:3;)
-    plmn_id_t plmn_id;
+    nas_plmn_id_t plmn_id;
     c_uint16_t mme_gid;
     c_uint8_t mme_code;
     c_uint32_t m_tmsi;
@@ -734,7 +753,11 @@ ED3(c_uint8_t type:4;,
 
 /* 9.9.3.32 Tracking area identity
  * O TV 6 */
-typedef tai_t nas_tracking_area_identity_t;
+typedef struct _nas_tracking_area_identity_t {
+    nas_plmn_id_t plmn_id;
+    uint16_t tac;
+} __attribute__ ((packed)) nas_tracking_area_identity_t;
+
 
 /* 9.9.3.33 Tracking area identity list
  * M LV 7-97 */

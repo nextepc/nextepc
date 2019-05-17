@@ -245,7 +245,7 @@ print_flowset_parms(struct dn_fs *fs, char *prefix)
 		    fs->max_th,
 		    1.0 * fs->max_p / (double)(1 << SCALE_RED));
 		if (fs->flags & DN_IS_ECN)
-#if 0 /* modifed by acetcom */
+#if 0 /* modifed by NextEPC */
 			strncat(red, " (ecn)", 6);
 #else
 			strcat(red, " (ecn)");

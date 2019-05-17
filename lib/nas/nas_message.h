@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, NextEPC Group
+ * Copyright (c) 2019, NextEPC Inc.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -24,9 +24,9 @@
  */
 
 /*******************************************************************************
- * This file had been created by gtpv2c_tlv.py script v0.1.0
+ * This file had been created by nas_message.py script v0.1.0
  * Please do not modify this file but regenerate it via script.
- * Created on: 2018-01-23 15:58:42.847411 by acetcom
+ * Created on: 2018-01-23 15:58:42.847411
  * from 24301-d80.docx
  ******************************************************************************/
 

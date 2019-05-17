@@ -69,7 +69,7 @@ static int dict_dcca_entry(char * conffile)
 	
     /* Applications section */
     {
-#if 0 /* modified by acetcom */
+#if 0 /* modified by NextEPC */
 	/* DCCA */
 	{
 	    struct dict_application_data data = {        4, "Diameter Credit Control Application" 			};

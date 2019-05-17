@@ -3,7 +3,7 @@
   "version": "0.3.10",
   "description": "NextEPC",
   "main": "index.js",
-  "repository": "https://github.com/acetcom/nextepc",
+  "repository": "https://github.com/nextepc/nextepc",
   "author": "NextEPC Group",
   "license": "GPL-3.0",
   "dependencies": {

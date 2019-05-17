@@ -2,7 +2,7 @@ ARG dist=fedora
 ARG tag=latest
 FROM ${dist}:${tag}
 
-MAINTAINER Sukchan Lee <acetcom@gmail.com>
+MAINTAINER NextEPC <help@nextepc.com>
 
 RUN dnf -y install \
         autoconf \
