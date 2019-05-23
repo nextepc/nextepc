@@ -2099,7 +2099,7 @@ static status_t mme_ue_new_guti(mme_ue_t *mme_ue)
     memset(&mme_ue->guti, 0, sizeof(guti_t));
 
     /* Use the first configured plmn_id and mme group id */
-    memcpy(&mme_ue->guti.plmn_id, &served_gummei->plmn_id[0], PLMN_ID_LEN);
+    nas_from_plmn_id(&mme_ue->guti.plmn_id, &served_gummei->plmn_id[0]);
     mme_ue->guti.mme_gid = served_gummei->mme_gid[0];
     mme_ue->guti.mme_code = served_gummei->mme_code[0];
 
