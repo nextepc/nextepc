@@ -7,8 +7,16 @@
 
 void *nas_from_plmn_id(nas_plmn_id_t *nas_plmn_id, plmn_id_t *plmn_id)
 {
-    memcpy(nas_plmn_id, plmn_id, PLMN_ID_LEN);
-    if (plmn_id->mnc1 != 0xf)
+    nas_plmn_id->mcc1 = plmn_id->mcc1;
+    nas_plmn_id->mcc2 = plmn_id->mcc2;
+    nas_plmn_id->mcc3 = plmn_id->mcc3;
+    if (plmn_id->mnc1 == 0xf)
+    {
+        nas_plmn_id->mnc3 = plmn_id->mnc1;
+        nas_plmn_id->mnc1 = plmn_id->mnc2;
+        nas_plmn_id->mnc2 = plmn_id->mnc3;
+    }
+    else
     {
         nas_plmn_id->mnc1 = plmn_id->mnc1;
         nas_plmn_id->mnc2 = plmn_id->mnc2;
@@ -19,8 +27,16 @@ void *nas_from_plmn_id(nas_plmn_id_t *nas_plmn_id, plmn_id_t *plmn_id)
 
 void *nas_to_plmn_id(plmn_id_t *plmn_id, nas_plmn_id_t *nas_plmn_id)
 {
-    memcpy(plmn_id, nas_plmn_id, PLMN_ID_LEN);
-    if (plmn_id->mnc1 != 0xf)
+    plmn_id->mcc1 = nas_plmn_id->mcc1;
+    plmn_id->mcc2 = nas_plmn_id->mcc2;
+    plmn_id->mcc3 = nas_plmn_id->mcc3;
+    if (nas_plmn_id->mnc3 == 0xf)
+    {
+        plmn_id->mnc2 = nas_plmn_id->mnc1;
+        plmn_id->mnc3 = nas_plmn_id->mnc2;
+        plmn_id->mnc1 = nas_plmn_id->mnc3;
+    }
+    else
     {
         plmn_id->mnc1 = nas_plmn_id->mnc1;
         plmn_id->mnc2 = nas_plmn_id->mnc2;
