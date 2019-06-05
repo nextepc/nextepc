@@ -10,7 +10,8 @@ VERSION := $(shell echo '$(DEBVERS)' | sed -e 's/[+-].*//' -e 's/~//g')
 # This has to be exported to make some magic below work.
 #export DH_OPTIONS
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
-
+# Disable debug deb
+#DEB_BUILD_OPTIONS=noddebs 
 %:
 	dh $@ --with autoreconf --with systemd
 
