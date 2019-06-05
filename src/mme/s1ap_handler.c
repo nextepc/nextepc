@@ -263,7 +263,7 @@ void s1ap_handle_initial_ue_message(mme_enb_t *enb, s1ap_message_t *message)
             memset(&guti, 0, sizeof(guti_t));
 
             /* Use the first configured plmn_id and mme group id */
-            memcpy(&guti.plmn_id, &served_gummei->plmn_id[0], PLMN_ID_LEN);
+            nas_from_plmn_id(&guti.plmn_id, &served_gummei->plmn_id[0]);
             guti.mme_gid = served_gummei->mme_gid[0];
 
             /* size must be 1 */

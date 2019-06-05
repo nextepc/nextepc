@@ -5,6 +5,63 @@
 
 #include "nas_types.h"
 
+/*
+    The encoding of PLMNID is different in NAS, s1ap messages.
+
+     < S1AP, GTP-C Encoding> 
+     -------------------
+     |   MCC2 |   MCC1 |
+     -------------------
+     |   MNC1 |   MCC3 |
+     -------------------
+     |   MNC3 |   MNC2 |
+     -------------------
+     If 2 digit mnc used, MNC1 will be 0xf.
+
+     Ex: MCC =214, MNC=123
+
+     -------------------
+     |   1    |   2    |
+     -------------------
+     |   1    |   4    |
+     -------------------
+     |   3    |   2    |
+     -------------------
+
+
+     < NAS, Diameter Encoding >
+     -------------------
+     |   MCC2 |   MCC1 |
+     -------------------
+     |   MNC3 |   MCC3 |
+     -------------------
+     |   MNC2 |   MNC1 |
+     -------------------
+
+     Ex: MCC =214, MNC=123
+
+     -------------------
+     |   1    |   2    |
+     -------------------
+     |   3    |   4    |
+     -------------------
+     |   2    |   1    |
+     -------------------
+
+
+     If 2 digit mnc used, MNC3 will be 0xf. 
+
+     Ex: MCC =214, MNC=12
+
+     -------------------
+     |   1    |   2    |
+     -------------------
+     |   0xf  |   4    |
+     -------------------
+     |   2    |   1    |
+     -------------------
+
+ */
 void *nas_from_plmn_id(nas_plmn_id_t *nas_plmn_id, plmn_id_t *plmn_id)
 {
     nas_plmn_id->mcc1 = plmn_id->mcc1;
