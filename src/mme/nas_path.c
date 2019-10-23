@@ -229,7 +229,7 @@ status_t nas_send_detach_accept(mme_ue_t *mme_ue)
 
     rv = s1ap_send_ue_context_release_command(enb_ue,
             S1AP_Cause_PR_nas, S1AP_CauseNas_detach,
-            S1AP_UE_CTX_REL_S1_NORMAL_RELEASE, 0);
+            S1AP_UE_CTX_REL_UE_CONTEXT_REMOVE, 0);
     d_assert(rv == CORE_OK, return CORE_ERROR, "s1ap send error");
 
     return CORE_OK;

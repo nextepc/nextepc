@@ -158,7 +158,11 @@ static int _gtpv1_u_recv_cb(sock_id sock, void *data)
     d_assert(ip_h, goto cleanup,);
 
     bearer = pgw_bearer_find_by_pgw_s5u_teid(teid);
-    d_assert(bearer, goto cleanup,);
+    if (!bearer)
+    {
+        d_trace(9, "[DROP] Cannot find bearer: teid %d\n", teid);
+        goto cleanup;
+    }
     sess = bearer->sess;
     d_assert(sess, goto cleanup,);
 
@@ -180,10 +184,8 @@ static int _gtpv1_u_recv_cb(sock_id sock, void *data)
     {
         rv = pgw_gtp_handle_slaac(sess, pkbuf);
         if (rv == PGW_GTP_HANDLED)
-        {
-            pkbuf_free(pkbuf);
-            return 0;
-        }
+            goto cleanup;
+
         d_assert(rv == CORE_OK,, "pgw_gtp_handle_slaac() failed");
     }
 
