@@ -48,8 +48,14 @@
 /* #define OLD_SCTP_SOCKET_API */
 
 /* Automatically fallback to old API if some of the new symbols are not defined */
+#if 0 /* Modified by NextEPC */
 #if (!defined(SCTP_CONNECTX_4_ARGS) || (!defined(SCTP_RECVRCVINFO)) || (!defined(SCTP_SNDINFO))) 
 # define OLD_SCTP_SOCKET_API
+#endif
+#else
+#if ((!defined(SCTP_CONNECTX_4_ARGS)) || (!defined(SCTP_RECVRCVINFO)) || (!defined(SCTP_SNDINFO)) || (!defined(SCTP_SEND_FAILED_EVENT)))
+# define OLD_SCTP_SOCKET_API
+#endif
 #endif
 
 
