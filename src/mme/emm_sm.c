@@ -235,7 +235,7 @@ static void common_register_state(fsm_t *s, event_t *e)
                             mme_ue, &message->emm.detach_request_from_ue);
                     if (rv != CORE_OK)
                     {
-                        d_error("emm_handle_attach_request() failed");
+                        d_error("emm_handle_detach_request() failed");
                         FSM_TRAN(s, emm_state_exception);
                         return;
                     }
@@ -509,7 +509,7 @@ void emm_state_authentication(fsm_t *s, event_t *e)
                             mme_ue, &message->emm.detach_request_from_ue);
                     if (rv != CORE_OK)
                     {
-                        d_error("emm_handle_attach_request() failed");
+                        d_error("emm_handle_detach_request() failed");
                         FSM_TRAN(s, emm_state_exception);
                         return;
                     }
@@ -646,7 +646,7 @@ void emm_state_security_mode(fsm_t *s, event_t *e)
                             mme_ue, &message->emm.detach_request_from_ue);
                     if (rv != CORE_OK)
                     {
-                        d_error("emm_handle_attach_request() failed");
+                        d_error("emm_handle_detach_request() failed");
                         FSM_TRAN(s, emm_state_exception);
                         return;
                     }
@@ -755,7 +755,7 @@ void emm_state_initial_context_setup(fsm_t *s, event_t *e)
                             mme_ue, &message->emm.detach_request_from_ue);
                     if (rv != CORE_OK)
                     {
-                        d_error("emm_handle_attach_request() failed");
+                        d_error("emm_handle_detach_request() failed");
                         FSM_TRAN(s, emm_state_exception);
                         return;
                     }
