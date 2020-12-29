@@ -20,7 +20,7 @@
 #include <sys/types.h>
 #include <sys/param.h>
 #include <sys/socket.h>
-#include <sys/sysctl.h>
+/* #include <sys/sysctl.h>  deprecated */
 
 #include <ctype.h>
 #include <err.h>

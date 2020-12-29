@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 /* XXX there are several sysctl leftover here */
-#include <sys/sysctl.h>
+/* #include <sys/sysctl.h>  deprecated */
 
 #include "ipfw2.h"
 
