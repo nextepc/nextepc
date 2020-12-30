@@ -24,7 +24,7 @@
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/sockio.h>
-//#include <sys/sysctl.h>
+/* #include <sys/sysctl.h>  deprecated */
 
 #include "ipfw2.h"
 
