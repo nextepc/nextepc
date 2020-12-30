@@ -115,7 +115,7 @@ static void *THREAD_FUNC sm_main(thread_id id, void *data)
 
     prev_tm = time_now();
 
-#define EVENT_LOOP_TIMEOUT 50   /* 50ms */
+#define EVENT_LOOP_TIMEOUT 10   /* 10ms, 50ms */
     while ((!thread_should_stop()))
     {
         rv = event_timedrecv(mme_self()->queue_id, &event, EVENT_LOOP_TIMEOUT);
