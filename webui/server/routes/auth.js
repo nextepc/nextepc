@@ -18,7 +18,7 @@ router.get('/session', (req, res) => {
   if (req.user) {
     const body = { '_id': req.user._id, 'username': req.user.username, 'roles':req.user.roles };
     const token = jwt.sign({ user: body }, secret);
-    session.token = token
+    session.authToken = token
 
   }
 
