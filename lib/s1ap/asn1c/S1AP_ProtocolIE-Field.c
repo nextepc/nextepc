@@ -22730,6 +22730,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_value_76[] = {
 		0, 0, /* No default value */
 		"Source-ToTarget-TransparentContainer"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_HandoverRequiredIEs__value, choice.Source_ToTarget_TransparentContainer),
+		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
+		0,
+		&asn_DEF_S1AP_Source_ToTarget_TransparentContainer,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"Source-ToTarget-TransparentContainer"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_HandoverRequiredIEs__value, choice.MSClassmark2),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
 		0,
@@ -22940,6 +22949,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_value_80[] = {
 		{ 0, 0, 0 },
 		0, 0, /* No default value */
 		"E-RABList"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_HandoverCommandIEs__value, choice.Target_ToSource_TransparentContainer),
+		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
+		0,
+		&asn_DEF_S1AP_Target_ToSource_TransparentContainer,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"Target-ToSource-TransparentContainer"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_HandoverCommandIEs__value, choice.Target_ToSource_TransparentContainer),
 		(ASN_TAG_CLASS_UNIVERSAL | (4 << 2)),
@@ -23340,6 +23358,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_value_88[] = {
 		{ 0, 0, 0 },
 		0, 0, /* No default value */
 		"GUMMEI"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_HandoverRequestIEs__value, choice.MME_UE_S1AP_ID),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_S1AP_MME_UE_S1AP_ID,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"MME-UE-S1AP-ID"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_HandoverRequestIEs__value, choice.ManagementBasedMDTAllowed),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
@@ -24292,6 +24319,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_value_108[] = {
 		{ 0, 0, 0 },
 		0, 0, /* No default value */
 		"CriticalityDiagnostics"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_PathSwitchRequestAcknowledgeIEs__value, choice.MME_UE_S1AP_ID),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_S1AP_MME_UE_S1AP_ID,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"MME-UE-S1AP-ID"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_PathSwitchRequestAcknowledgeIEs__value, choice.CSGMembershipStatus),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
@@ -25931,6 +25967,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_value_152[] = {
 		{ 0, 0, 0 },
 		0, 0, /* No default value */
 		"GUMMEI"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_InitialContextSetupRequestIEs__value, choice.MME_UE_S1AP_ID),
+		(ASN_TAG_CLASS_UNIVERSAL | (2 << 2)),
+		0,
+		&asn_DEF_S1AP_MME_UE_S1AP_ID,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"MME-UE-S1AP-ID"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_InitialContextSetupRequestIEs__value, choice.ManagementBasedMDTAllowed),
 		(ASN_TAG_CLASS_UNIVERSAL | (10 << 2)),
@@ -34085,6 +34130,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_value_388[] = {
 		{ 0, 0, 0 },
 		0, 0, /* No default value */
 		"E-RABModifyListBearerModConf"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_E_RABModificationConfirmIEs__value, choice.E_RABList),
+		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+		0,
+		&asn_DEF_S1AP_E_RABList,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"E-RABList"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_E_RABModificationConfirmIEs__value, choice.E_RABList),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),

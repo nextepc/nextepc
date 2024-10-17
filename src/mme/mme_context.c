@@ -2320,6 +2320,9 @@ mme_ue_t* mme_ue_find_by_message(nas_message_t *message)
                 {
                     c_int8_t imsi_bcd[MAX_IMSI_BCD_LEN+1];
 
+                    if (eps_mobile_identity->length > MAX_IMSI_BCD_LEN+1) {
+                        break;
+                    }
                     nas_imsi_to_bcd(
                         &eps_mobile_identity->imsi, eps_mobile_identity->length,
                         imsi_bcd);

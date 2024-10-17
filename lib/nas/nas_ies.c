@@ -1590,6 +1590,8 @@ c_int16_t nas_decode_emergency_number_list(nas_emergency_number_list_t *emergenc
     emergency_number_list->length = source->length;
     size = emergency_number_list->length + sizeof(emergency_number_list->length);
 
+    d_assert(emergency_number_list->length <= NAS_MAX_EMERGENCY_NUMBER_LIST_LEN, return -1, "pkbuf_header error");
+
     d_assert(pkbuf_header(pkbuf, -size) == CORE_OK, return -1, "pkbuf_header error");
     memcpy(emergency_number_list, pkbuf->payload - size, size);
 
