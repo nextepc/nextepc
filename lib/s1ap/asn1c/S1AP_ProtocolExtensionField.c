@@ -13781,6 +13781,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_extensionValue_104[] = {
 		0, 0, /* No default value */
 		"COUNTValueExtended"
 		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_Bearers_SubjectToStatusTransfer_ItemExtIEs__extensionValue, choice.COUNTValueExtended),
+		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+		0,
+		&asn_DEF_S1AP_COUNTValueExtended,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"COUNTValueExtended"
+		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_Bearers_SubjectToStatusTransfer_ItemExtIEs__extensionValue, choice.ReceiveStatusOfULPDCPSDUsExtended),
 		(ASN_TAG_CLASS_UNIVERSAL | (3 << 2)),
 		0,
@@ -13789,6 +13798,15 @@ static asn_TYPE_member_t asn_MBR_S1AP_extensionValue_104[] = {
 		{ 0, 0, 0 },
 		0, 0, /* No default value */
 		"ReceiveStatusOfULPDCPSDUsExtended"
+		},
+	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_Bearers_SubjectToStatusTransfer_ItemExtIEs__extensionValue, choice.COUNTvaluePDCP_SNlength18),
+		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
+		0,
+		&asn_DEF_S1AP_COUNTvaluePDCP_SNlength18,
+		0,
+		{ 0, 0, 0 },
+		0, 0, /* No default value */
+		"COUNTvaluePDCP-SNlength18"
 		},
 	{ ATF_NOFLAGS, 0, offsetof(struct S1AP_Bearers_SubjectToStatusTransfer_ItemExtIEs__extensionValue, choice.COUNTvaluePDCP_SNlength18),
 		(ASN_TAG_CLASS_UNIVERSAL | (16 << 2)),
