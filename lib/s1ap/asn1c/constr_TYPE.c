@@ -54,6 +54,26 @@ asn_fprint(FILE *stream, const asn_TYPE_descriptor_t *td,
     return fflush(stream);
 }
 
+/*
+ * Copy a structuture.
+ */
+int
+asn_copy(const asn_TYPE_descriptor_t *td,
+         void **struct_dst, const void *struct_src) {
+
+    if(!td || !struct_dst || !struct_src) {
+        errno = EINVAL;
+        return -1;
+    }
+
+    if(!td->op) {
+        errno = ENOSYS;
+        return -1;
+    }
+    
+    return td->op->copy_struct(td, struct_dst, struct_src);
+}
+
 /* Dump the data into the specified stdio stream */
 static int
 _print2fp(const void *buffer, size_t size, void *app_key) {
@@ -70,7 +90,7 @@ _print2fp(const void *buffer, size_t size, void *app_key) {
  * Some compilers do not support variable args macros.
  * This function is a replacement of ASN_DEBUG() macro.
  */
-void ASN_DEBUG_f(const char *fmt, ...);
+void CC_PRINTFLIKE(1, 2) ASN_DEBUG_f(const char *fmt, ...);
 void ASN_DEBUG_f(const char *fmt, ...) {
 	va_list ap;
 	va_start(ap, fmt);

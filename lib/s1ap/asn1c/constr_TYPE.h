@@ -34,23 +34,53 @@ typedef struct asn_struct_ctx_s {
 	ber_tlv_len_t left;	/* Number of bytes left, -1 for indefinite */
 } asn_struct_ctx_t;
 
-#include <ber_decoder.h>	/* Basic Encoding Rules decoder */
-#include <der_encoder.h>	/* Distinguished Encoding Rules encoder */
-#include <xer_decoder.h>	/* Decoder of XER (XML, text) */
-#include <xer_encoder.h>	/* Encoder into XER (XML, text) */
-#include <per_decoder.h>	/* Packet Encoding Rules decoder */
-#include <per_encoder.h>	/* Packet Encoding Rules encoder */
-#include <constraints.h>	/* Subtype constraints support */
-#include <asn_random_fill.h>	/* Random structures support */
-
-#ifdef  ASN_DISABLE_OER_SUPPORT
-typedef void (oer_type_decoder_f)();
-typedef void (oer_type_encoder_f)();
-typedef void asn_oer_constraints_t;
+#if !defined(ASN_DISABLE_BER_SUPPORT)
+#include <ber_decoder.h>  /* Basic Encoding Rules decoder */
+#include <der_encoder.h>  /* Distinguished Encoding Rules encoder */
 #else
-#include <oer_decoder.h>	/* Octet Encoding Rules encoder */
-#include <oer_encoder.h>	/* Octet Encoding Rules encoder */
-#endif
+typedef void (ber_type_decoder_f)(void);
+typedef void (der_type_encoder_f)(void);
+#endif  /* !defined(ASN_DISABLE_BER_SUPPORT) */
+
+#if !defined(ASN_DISABLE_XER_SUPPORT)
+#include <xer_decoder.h>  /* Decoder of XER (XML, text) */
+#include <xer_encoder.h>  /* Encoder into XER (XML, text) */
+#else
+typedef void (xer_type_decoder_f)(void);
+typedef void (xer_type_encoder_f)(void);
+#endif  /* !defined(ASN_DISABLE_XER_SUPPORT) */
+
+#if !defined(ASN_DISABLE_JER_SUPPORT)
+#include <jer_decoder.h>  /* Decoder of JER (JSON, text) */
+#include <jer_encoder.h>  /* Encoder into JER (JSON, text) */
+#else
+typedef void (jer_type_decoder_f)(void);
+typedef void (jer_type_encoder_f)(void);
+#endif  /* !defined(ASN_DISABLE_JER_SUPPORT) */
+
+#if !defined(ASN_DISABLE_UPER_SUPPORT) || !defined(ASN_DISABLE_APER_SUPPORT)
+#include <per_decoder.h>  /* Packet Encoding Rules decoder */
+#include <per_encoder.h>  /* Packet Encoding Rules encoder */
+#else
+typedef void (per_type_decoder_f)(void);
+typedef void (per_type_encoder_f)(void);
+#endif  /* !defined(ASN_DISABLE_UPER_SUPPORT) || !defined(ASN_DISABLE_APER_SUPPORT) */
+
+#include <constraints.h>  /* Subtype constraints support */
+
+#if !defined(ASN_DISABLE_RFILL_SUPPORT)
+#include <asn_random_fill.h>  /* Random structures support */
+#else
+typedef void (asn_random_fill_f)(void);
+#endif  /* !defined(ASN_DISABLE_RFILL_SUPPORT) */
+
+#if !defined(ASN_DISABLE_OER_SUPPORT)
+#include <oer_decoder.h>  /* Octet Encoding Rules encoder */
+#include <oer_encoder.h>  /* Octet Encoding Rules encoder */
+#else
+typedef void (oer_type_decoder_f)(void);
+typedef void (oer_type_encoder_f)(void);
+#endif  /* !defined(ASN_DISABLE_OER_SUPPORT) */
 
 /*
  * Free the structure according to its specification.
@@ -114,6 +144,16 @@ typedef int (asn_struct_compare_f)(
 		const void *struct_B);
 
 /*
+ * Copies struct B into struct A.
+ * Allocates memory for struct A, if necessary.
+ */
+typedef int (asn_struct_copy_f)(
+		const struct asn_TYPE_descriptor_s *type_descriptor,
+		void **struct_A,
+		const void *struct_B
+        );
+
+/*
  * Return the outmost tag of the type.
  * If the type is untagged CHOICE, the dynamic operation is performed.
  * NOTE: This function pointer type is only useful internally.
@@ -145,10 +185,13 @@ typedef struct asn_TYPE_operation_s {
     asn_struct_free_f *free_struct;     /* Free the structure */
     asn_struct_print_f *print_struct;   /* Human readable output */
     asn_struct_compare_f *compare_struct; /* Compare two structures */
+    asn_struct_copy_f *copy_struct;       /* Copy method */
     ber_type_decoder_f *ber_decoder;      /* Generic BER decoder */
     der_type_encoder_f *der_encoder;      /* Canonical DER encoder */
     xer_type_decoder_f *xer_decoder;      /* Generic XER decoder */
     xer_type_encoder_f *xer_encoder;      /* [Canonical] XER encoder */
+    jer_type_decoder_f *jer_decoder;      /* Generic JER encoder */
+    jer_type_encoder_f *jer_encoder;      /* Generic JER encoder */
     oer_type_decoder_f *oer_decoder;      /* Generic OER decoder */
     oer_type_encoder_f *oer_encoder;      /* Canonical OER encoder */
     per_type_decoder_f *uper_decoder;     /* Unaligned PER decoder */
@@ -163,8 +206,12 @@ typedef struct asn_TYPE_operation_s {
  * A constraints tuple specifying both the OER and PER constraints.
  */
 typedef struct asn_encoding_constraints_s {
+#if !defined(ASN_DISABLE_OER_SUPPORT)
     const struct asn_oer_constraints_s *oer_constraints;
+#endif  /* !defined(ASN_DISABLE_OER_SUPPORT) */
+#if !defined(ASN_DISABLE_UPER_SUPPORT) || !defined(ASN_DISABLE_APER_SUPPORT)
     const struct asn_per_constraints_s *per_constraints;
+#endif  /* !defined(ASN_DISABLE_UPER_SUPPORT) || !defined(ASN_DISABLE_APER_SUPPORT) */
     asn_constr_check_f *general_constraints;
 } asn_encoding_constraints_t;
 
@@ -239,8 +286,8 @@ typedef struct asn_TYPE_member_s {
 typedef struct asn_TYPE_tag2member_s {
     ber_tlv_tag_t el_tag;   /* Outmost tag of the member */
     unsigned el_no;         /* Index of the associated member, base 0 */
-    int toff_first;         /* First occurence of the el_tag, relative */
-    int toff_last;          /* Last occurence of the el_tag, relative */
+    int toff_first;         /* First occurrence of the el_tag, relative */
+    int toff_last;          /* Last occurrence of the el_tag, relative */
 } asn_TYPE_tag2member_t;
 
 /*
@@ -254,6 +301,17 @@ typedef struct asn_TYPE_tag2member_s {
 int asn_fprint(FILE *stream, /* Destination stream descriptor */
                const asn_TYPE_descriptor_t *td, /* ASN.1 type descriptor */
                const void *struct_ptr);         /* Structure to be printed */
+
+/*
+ * Copies a source structure (struct_src) into destination structure 
+ * (struct_dst). Allocates memory for the destination structure, if necessary.
+ * RETURN VALUES:
+ *   0: Copy OK.
+ * 	-1: Problem copying the structure.
+ */
+int asn_copy(const asn_TYPE_descriptor_t *td, /* ASN.1 type descriptor */
+             void **struct_dst,               /* Structure to be populated */
+             const void *struct_src);         /* Structure to be copied */
 
 #ifdef __cplusplus
 }
