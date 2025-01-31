@@ -146,6 +146,9 @@ status_t emm_handle_attach_request(
         {
             c_int8_t imsi_bcd[MAX_IMSI_BCD_LEN+1];
 
+            if (eps_mobile_identity->length > MAX_IMSI_BCD_LEN+1) {
+                break;
+            }
             nas_imsi_to_bcd(
                 &eps_mobile_identity->imsi, eps_mobile_identity->length,
                 imsi_bcd);
@@ -299,6 +302,10 @@ status_t emm_handle_identity_response(
     if (mobile_identity->imsi.type == NAS_IDENTITY_TYPE_2_IMSI)
     {
         c_int8_t imsi_bcd[MAX_IMSI_BCD_LEN+1];
+
+        if (mobile_identity->length > MAX_IMSI_BCD_LEN+1) {
+            return CORE_ERROR;
+        }
 
         nas_imsi_to_bcd(
             &mobile_identity->imsi, mobile_identity->length, imsi_bcd);
