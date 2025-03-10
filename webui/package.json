@@ -16,7 +16,7 @@
     "express-restify-mongoose": "^4.3.0",
     "express-session": "^1.15.2",
     "immutable": "^3.8.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.10",
     "lusca": "^1.6.0",
     "method-override": "^2.3.9",
