@@ -22,7 +22,11 @@
 #include "core_debug.h"
 #include "core_pkbuf.h"
 #include "core_lib.h"
+#ifdef HAVE_MONGOC2
+#include <mongoc/mongoc.h>
+#else
 #include <mongoc.h>
+#endif
 
 #include "common/context.h"
 #include "mme/mme_context.h"
@@ -178,8 +182,13 @@ static void handover_test1(abts_case *tc, void *data)
     ABTS_PTR_NOTNULL(tc, doc);
     do
     {
+#if MONGOC_MAJOR_VERSION >= 2
+        count = mongoc_collection_count_documents (
+            collection, doc, NULL, NULL, NULL, &error);
+#else
         count = mongoc_collection_count (
             collection, MONGOC_QUERY_NONE, doc, 0, 0, NULL, &error);
+#endif
     } while (count == 0);
     bson_destroy(doc);
 
@@ -507,8 +516,13 @@ static void handover_test2(abts_case *tc, void *data)
     ABTS_PTR_NOTNULL(tc, doc);
     do
     {
+#if MONGOC_MAJOR_VERSION >= 2
+        count = mongoc_collection_count_documents (
+            collection, doc, NULL, NULL, NULL, &error);
+#else
         count = mongoc_collection_count (
             collection, MONGOC_QUERY_NONE, doc, 0, 0, NULL, &error);
+#endif
     } while (count == 0);
     bson_destroy(doc);
 

@@ -24,7 +24,11 @@
 #include "core_lib.h"
 #include "core_network.h"
 
+#ifdef HAVE_MONGOC2
+#include <mongoc/mongoc.h>
+#else
 #include <mongoc.h>
+#endif
 #include <yaml.h>
 #include "common/yaml_helper.h"
 
@@ -393,7 +397,7 @@ status_t hss_db_auth_info(
     mutex_lock(self.db_lock);
 
     query = BCON_NEW("imsi", BCON_UTF8(imsi_bcd));
-#if MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 5
+#if MONGOC_MAJOR_VERSION >= 2 || (MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 5)
     cursor = mongoc_collection_find_with_opts(
             self.subscriberCollection, query, NULL, NULL);
 #else
@@ -575,7 +579,7 @@ status_t hss_db_subscription_data(
     mutex_lock(self.db_lock);
 
     query = BCON_NEW("imsi", BCON_UTF8(imsi_bcd));
-#if MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 5
+#if MONGOC_MAJOR_VERSION >= 2 || (MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 5)
     cursor = mongoc_collection_find_with_opts(
             self.subscriberCollection, query, NULL, NULL);
 #else

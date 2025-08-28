@@ -408,7 +408,10 @@ fi
 AM_CONDITIONAL([USRSCTP], [test x$have_usrsctp_lib = xyes])
 
 PKG_CHECK_MODULES([YAML], yaml-0.1 >= 0.1.4)
-PKG_CHECK_MODULES([MONGOC], libmongoc-1.0 >= 1.3.1)
+PKG_CHECK_MODULES([MONGOC], mongoc2,
+  [AC_DEFINE([HAVE_MONGOC2], [1], [Have mongoc2.])],
+  [PKG_CHECK_MODULES([MONGOC], libmongoc-1.0 >= 1.3.1)
+])
 FREEDIAMETER_DIR=freeDiameter-1.2.1
 AC_SUBST(FREEDIAMETER_DIR)
 

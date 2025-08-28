@@ -24,7 +24,11 @@
 #include "core_pkbuf.h"
 #include "core_lib.h"
 
+#ifdef HAVE_MONGOC2
+#include <mongoc/mongoc.h>
+#else
 #include <mongoc.h>
+#endif
 #include <yaml.h>
 #include "common/yaml_helper.h"
 
@@ -409,7 +413,7 @@ status_t pcrf_db_qos_data(
     query = BCON_NEW(
             "imsi", BCON_UTF8(imsi_bcd),
             "pdn.apn", BCON_UTF8(apn));
-#if MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 5
+#if MONGOC_MAJOR_VERSION >= 2 || (MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 5)
     opts = BCON_NEW(
             "projection", "{",
                 "imsi", BCON_INT64(1),
