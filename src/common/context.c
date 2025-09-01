@@ -25,7 +25,11 @@
 #include "core_lib.h"
 #include "core_pkbuf.h"
 
+#ifdef HAVE_MONGOC2
+#include <mongoc/mongoc.h>
+#else
 #include <mongoc.h>
+#endif
 #include <yaml.h>
 #include "yaml_helper.h"
 
@@ -408,7 +412,7 @@ status_t context_db_init(const char *db_uri)
         return CORE_ERROR;
     }
 
-#if MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 4
+#if MONGOC_MAJOR_VERSION >= 2 || (MONGOC_MAJOR_VERSION >= 1 && MONGOC_MINOR_VERSION >= 4)
     mongoc_client_set_error_api(self.db_client, 2);
 #endif
 

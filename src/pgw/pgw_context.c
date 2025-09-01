@@ -25,7 +25,11 @@
 #include "core_lib.h"
 #include "core_network.h"
 
+#ifdef HAVE_MONGOC2
+#include <mongoc/mongoc.h>
+#else
 #include <mongoc.h>
+#endif
 #include <yaml.h>
 #include "common/yaml_helper.h"
 
